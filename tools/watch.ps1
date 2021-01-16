@@ -38,16 +38,9 @@ function PrintStatus {
 
 function RegisterWatchers {
     PrintStatus '***' Yellow ("Watching: $watchDirs") DarkGray
-
-    $Action = {
-        param($s, $e)
-        $Global:event = $e
-    }
-
-    foreach ($dir in $watchDirs) {
-        if (-Not (Test-Path $dir)) {
-            continue
-        }
+    
+    $validWatchDirs = $watchDirs | Where-Object { Test-Path $_}
+    foreach ($dir in $validWatchDirs) {
     
         $fsw = New-Object System.IO.FileSystemWatcher;
         $fsw.Path = $dir;
@@ -55,11 +48,20 @@ function RegisterWatchers {
         $fsw.IncludeSubdirectories = $true;
         $fsw.EnableRaisingEvents = $true;
     
-        $handlers = . {
-            Register-ObjectEvent -InputObject $fsw -EventName Changed -Action $Action
-            Register-ObjectEvent -InputObject $fsw -EventName Created -Action $Action
-            Register-ObjectEvent -InputObject $fsw -EventName Deleted -Action $Action
-            Register-ObjectEvent -InputObject $fsw -EventName Renamed -Action $Action
+        $eventNames = @(
+            "Changed", 
+            "Created", 
+            "Deleted", 
+            "Renamed"
+        )
+
+        $OnEvent = {
+            param($s, $e)
+            $Global:event = $e
+        }
+
+        return $eventNames.GetEnumerator() | Select-Object {
+            Register-ObjectEvent -InputObject $fsw -EventName $_ -Action $OnEvent
         }
     }
 }
@@ -103,7 +105,7 @@ function StopProcess {
 
 
 try {
-    RegisterWatchers
+    $fsws = RegisterWatchers
     $procId = StartProcess
 
     do {

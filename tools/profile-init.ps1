@@ -2,15 +2,15 @@
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "@StackBrains" # -ForegroundColor DarkCyan
+Write-Host "@StackBrains"
 
 $dir = (Get-Item $PSScriptRoot).FullName
 
 $aliases = @{
-    "tf"    = "terraform"
-    "dn"    = "dotnet"
-    "ng"    = "nuget"
-    "watch" = "$dir/watch.ps1"
+    "tf"    = "terraform.exe"
+    "dn"    = "dotnet.exe"
+    "ng"    = "nuget.exe"
+    "watch" = "$dir\watch.ps1"
 }
 
 $aliases.GetEnumerator() | ForEach-Object { 

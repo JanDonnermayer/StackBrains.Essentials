@@ -48,21 +48,6 @@ namespace StackBrains.Essentials
             return ValueProvider.Create<TKey, Task<TValue?>>(GetValue);
         }
 
-        public static IValueProvider<TKey, Task<TValue?>> OrElseTry<TKey, TValue>(
-            this IValueProvider<TKey, Task<TValue?>> first,
-            params IValueProvider<TKey,  Task<TValue?>>[] next
-        )
-        {
-            async Task<TValue?> GetValue(TKey key) {
-                return await next.AggregateAsync(
-                    await first.Get(key),
-                    async (val, next) => val ?? await next.Get(key)
-                );
-            }
-
-            return ValueProvider.Create<TKey, Task<TValue?>>(GetValue);
-        }
-
         public static IValueProvider<TKey, TValue> WithMemoryCache<TKey, TValue>(
             this IValueProvider<TKey, TValue> source
         ) where TKey : notnull

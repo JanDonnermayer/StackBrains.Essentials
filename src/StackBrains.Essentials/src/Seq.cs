@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace System
+namespace StackBrains.Essentials
 {
     public static class Seq
     {
@@ -17,5 +17,6 @@ namespace System
                 )
             );
         }
+
     }
 }

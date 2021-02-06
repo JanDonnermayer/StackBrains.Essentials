@@ -1,44 +1,48 @@
+using System;
+
 namespace StackBrains.Essentials
 {
-    public abstract class Result : IResult
+    public static class Result
     {
-        protected Result()
-        {
-            Success = true;
-            Message = "";
-        }
+        public static Result<TOk, TError> Ok<TOk, TError>(TOk ok)
+            where TOk : class
+            where TError : class
+            => new(ok: ok);
 
-        protected Result(string errorMessage)
-        {
-            Success = false;
-            Message = errorMessage;
-        }
-
-        public bool Success { get; }
-
-        public string? Message { get; }
+        public static Result<TOk, TError> Error<TOk, TError>(TError error)
+            where TOk : class
+            where TError : class
+            => new(error: error);
     }
 
-    public abstract class Result<T> : IResult<T> where T : class
+    public class Result<TOk, TError>
+        where TOk : class
+        where TError : class
     {
-        protected Result(T data)
-        {
-            Success = true;
-            Message = "";
-            Data = data;
-        }
-
-        protected Result(string errorMessage)
-        {
-            Success = false;
-            Message = errorMessage;
-            Data = default;
-        }
-
         public bool Success { get; }
 
-        public string? Message { get; }
+        private readonly TError? error;
 
-        public T? Data { get; }
+        private readonly TOk? ok;
+
+        public Result(TOk ok)
+        {
+            Success = true;
+            this.ok = ok ?? throw new ArgumentNullException(nameof(ok));
+        }
+
+        public Result(TError error)
+        {
+            Success = false;
+            this.error = error ?? throw new ArgumentNullException(nameof(error));
+        }
+
+        public TOk GetOk() => Success
+            ? ok!
+            : throw new Exception("The result has no Ok-payload!");
+
+        public TError GetError() => Success
+            ? throw new Exception("The result has no Error-payload!")
+            : error!;
     }
 }

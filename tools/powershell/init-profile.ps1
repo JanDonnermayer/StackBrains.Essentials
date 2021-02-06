@@ -11,7 +11,7 @@ $aliases = @{
     "dn"             = "dotnet.exe"
     "ng"             = "nuget.exe"
     "watch"          = "$tools\common\watch.ps1"
-    "dn-sln-add-all" = "$tools\dotnet\sln-add-all.ps1"
+    "dn-sln-add"     = "$tools\dotnet\sln-add.ps1"
     "dn-add-tests"   = "$tools\dotnet\add-tests.ps1"
 }
 

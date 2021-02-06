@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace StackBrains.Essentials
+namespace System.Threading.Tasks
 {
+
     public static class TaskSequenceExtensions
     {
         /// <summary>

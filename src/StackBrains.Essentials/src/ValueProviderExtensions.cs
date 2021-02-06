@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,18 +7,45 @@ namespace StackBrains.Essentials
 {
     public static class ValueProviderExtensions
     {
-        public static IValueProvider<TKey, TValue?> OrElseTry<TKey, TValue>(
+        public static IValueProvider<TKey, TValue?> OrElse<TKey, TValue>(
             this IValueProvider<TKey, TValue?> first,
             params IValueProvider<TKey, TValue?>[] next
         )
         {
-            TValue? GetValue(TKey key) => Seq
-                .Of(first)
-                .Concat(next)
-                .Select(v => v.GetValue(key))
+            return Seq.Of(first).Concat(next).FirstOrDefault();
+        }
+
+        public static IValueProvider<TKey, TValue?> FirstOrDefault<TKey, TValue>(
+            this IEnumerable<IValueProvider<TKey, TValue?>> source
+        )
+        {
+            TValue? GetValue(TKey key) => source
+                .Select(v => v.Get(key))
                 .FirstOrDefault(o => o != null);
 
             return ValueProvider.Create<TKey, TValue?>(GetValue);
+        }
+
+        public static IValueProvider<TKey, Task<TValue?>> OrElse<TKey, TValue>(
+            this IValueProvider<TKey, Task<TValue?>> first,
+            params IValueProvider<TKey, Task<TValue?>>[] next
+        )
+        {
+            return Seq.Of(first).Concat(next).FirstOrDefault();
+        }
+
+        public static IValueProvider<TKey, Task<TValue?>> FirstOrDefault<TKey, TValue>(
+            this IEnumerable<IValueProvider<TKey, Task<TValue?>>> source
+        )
+        {
+            async Task<TValue?> GetValue(TKey key) => await source
+                .Skip(1)
+                .AggregateAsync(
+                    seed: await source.First().Get(key),
+                    reduceAsync: async (res, src) => res ?? await src.Get(key)
+                );
+
+            return ValueProvider.Create<TKey, Task<TValue?>>(GetValue);
         }
 
         public static IValueProvider<TKey, Task<TValue?>> OrElseTry<TKey, TValue>(
@@ -27,8 +55,8 @@ namespace StackBrains.Essentials
         {
             async Task<TValue?> GetValue(TKey key) {
                 return await next.AggregateAsync(
-                    await first.GetValue(key),
-                    async (val, next) => val ?? await next.GetValue(key)
+                    await first.Get(key),
+                    async (val, next) => val ?? await next.Get(key)
                 );
             }
 
@@ -45,7 +73,7 @@ namespace StackBrains.Essentials
                 ImmutableInterlocked.GetOrAdd(
                     location: ref dict,
                     key: key,
-                    valueFactory: source.GetValue
+                    valueFactory: source.Get
                 );
 
             return ValueProvider.Create<TKey, TValue>(GetValue);
@@ -56,7 +84,7 @@ namespace StackBrains.Essentials
         )
         {
             Task<TValue> GetValue(TKey key) =>
-                Task.FromResult(source.GetValue(key));
+                Task.FromResult(source.Get(key));
 
             return ValueProvider.Create<TKey, Task<TValue>>(GetValue);
         }

@@ -9,6 +9,6 @@ namespace StackBrains.Essentials
 
         public FuncValueProvider(Func<TKey, TValue> source) => this.source = source;
 
-        public TValue GetValue(TKey key) => source(key);
+        public TValue Get(TKey key) => source(key);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace StackBrains.Essentials
@@ -7,14 +8,12 @@ namespace StackBrains.Essentials
     {
         public static IEnumerable<T> Of<T>(params T[] elements) => elements;
 
-        public static Dictionary<TKey, TValue> Map<TKey, TValue>(params (TKey, TValue)[] elements)
+        public static IImmutableDictionary<TKey, TValue> Map<TKey, TValue>(params (TKey, TValue)[] elements)
             where TKey : notnull
         {
-            return new Dictionary<TKey, TValue>(
-                elements.ToDictionary(
-                    e => e.Item1,
-                    e => e.Item2
-                )
+            return elements.ToImmutableDictionary(
+                keySelector: e => e.Item1,
+                elementSelector: e => e.Item2
             );
         }
 

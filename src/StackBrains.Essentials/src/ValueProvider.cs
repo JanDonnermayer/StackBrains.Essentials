@@ -8,9 +8,7 @@ namespace StackBrains.Essentials
         public static IValueProvider<TKey, TValue?> FromDictionary<TKey, TValue>(IDictionary<TKey, TValue> source)
         {
             TValue? GetValue(TKey key) =>
-                source.TryGetValue(key, out var value)
-                    ? value
-                    : default;
+                source.TryGetValue(key, out var value) ? value : default;
 
             return Create<TKey, TValue?>(GetValue);
         }

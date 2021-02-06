@@ -38,5 +38,8 @@ namespace System.Linq
             
             return state;
         }
+
+        public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source) =>
+            source.Where(e => e != null).Select(e => e!);
     }
 }

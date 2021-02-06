@@ -1,7 +1,3 @@
-param(
-    [string]$filter = "*.csproj"
-)
-
 $dir = Get-Item (Get-Location)
 
 $solution = Join-Path -Path "$dir" -ChildPath ($dir.Name + ".sln")
@@ -23,7 +19,7 @@ $projects | ForEach-Object {
     }
 }
 
-Get-ChildItem -Path $dir -Filter $filter -Recurse
+Get-ChildItem -Path $dir -Filter "*.csproj" -Recurse
 | Where-Object { !($projects.Contains($_.FullName)) }
 | ForEach-Object { dotnet sln add $_.FullName }
 

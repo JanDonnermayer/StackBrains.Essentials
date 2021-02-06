@@ -12,15 +12,15 @@ $aliases = @{
     "ng" = "nuget.exe"
 }
 
-$prefixMap = @{
+$toolPrefixMap = @{
     "common" = ""
     "dotnet" = "dn-"
 }
 
-$prefixMap.GetEnumerator() | ForEach-Object {
-    $path = $_.Key
+$toolPrefixMap.GetEnumerator() | ForEach-Object {
+    $subDir = $_.Key
     $prefix = $_.Value
-    Get-ChildItem "$tools/$path" | ForEach-Object {
+    Get-ChildItem "$tools/$subDir" | ForEach-Object {
         $name = $_.Name -replace ".ps1", ""
         $aliases.Add("$prefix" + "$name", $_.FullName)
     }

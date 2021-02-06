@@ -7,12 +7,23 @@ Write-Host "@StackBrains"
 $tools = (Get-Item $PSScriptRoot).Parent.FullName
 
 $aliases = @{
-    "tf"             = "terraform.exe"
-    "dn"             = "dotnet.exe"
-    "ng"             = "nuget.exe"
-    "watch"          = "$tools\common\watch.ps1"
-    "dn-sln-add"     = "$tools\dotnet\sln-add.ps1"
-    "dn-add-tests"   = "$tools\dotnet\add-tests.ps1"
+    "tf" = "terraform.exe"
+    "dn" = "dotnet.exe"
+    "ng" = "nuget.exe"
+}
+
+$prefixMap = @{
+    "common" = ""
+    "dotnet" = "dn-"
+}
+
+$prefixMap.GetEnumerator() | ForEach-Object {
+    $path = $_.Key
+    $prefix = $_.Value
+    Get-ChildItem "$tools/$path" | ForEach-Object {
+        $name = $_.Name -replace ".ps1", ""
+        $aliases.Add("$prefix" + "$name", $_.FullName)
+    }
 }
 
 $aliases.GetEnumerator() | ForEach-Object { 

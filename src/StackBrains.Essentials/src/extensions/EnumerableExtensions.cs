@@ -7,33 +7,33 @@ namespace System.Linq
     {
         public static Task<TElement> AggregateAsync<TElement>(
             this IEnumerable<TElement> source,
-            Func<TElement, TElement, Task<TElement>> reduceAsync
+            Func<TElement, TElement, Task<TElement>> reducer
         )
         {
             return AggregateAsync(
                 source: source.Skip(1),
                 seed: source.First(),
-                reduceAsync: reduceAsync
+                reducer: reducer
             );
         }
 
         public static async Task<TState> AggregateAsync<TState, TElement>(
             this IEnumerable<TElement> source,
             TState seed,
-            Func<TState, TElement, Task<TState>> reduceAsync
+            Func<TState, TElement, Task<TState>> reducer
         )
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            if (reduceAsync is null)
-                throw new ArgumentNullException(nameof(reduceAsync));
+            if (reducer is null)
+                throw new ArgumentNullException(nameof(reducer));
 
             var state = seed;
 
             foreach (var element in source)
             {
-                state = await reduceAsync(state, element);
+                state = await reducer(state, element);
             }
             
             return state;

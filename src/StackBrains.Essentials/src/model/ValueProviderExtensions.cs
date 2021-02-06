@@ -42,7 +42,7 @@ namespace StackBrains.Essentials
                 .Skip(1)
                 .AggregateAsync(
                     seed: await source.First().Get(key),
-                    reduceAsync: async (res, src) => res ?? await src.Get(key)
+                    reducer: async (res, src) => res ?? await src.Get(key)
                 );
 
             return ValueProvider.Create<TKey, Task<TValue?>>(GetValue);

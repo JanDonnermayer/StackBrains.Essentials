@@ -63,7 +63,7 @@ namespace StackBrains.Essentials
             return ValueProvider.Create<TKey, Task<TValue?>>(GetValue);
         }
 
-        public static IValueProvider<TKey, TValue> WithCache<TKey, TValue>(
+        public static IValueProvider<TKey, TValue> WithMemoryCache<TKey, TValue>(
             this IValueProvider<TKey, TValue> source
         ) where TKey : notnull
         {

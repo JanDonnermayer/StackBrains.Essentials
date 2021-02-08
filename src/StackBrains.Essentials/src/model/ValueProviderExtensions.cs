@@ -1,5 +1,5 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,14 +52,9 @@ namespace StackBrains.Essentials
             this IValueProvider<TKey, TValue> source
         ) where TKey : notnull
         {
-            var dict = ImmutableDictionary<TKey, TValue>.Empty;
+            var dict = new ConcurrentDictionary<TKey, TValue>();
 
-            TValue GetValue(TKey key) =>
-                ImmutableInterlocked.GetOrAdd(
-                    location: ref dict,
-                    key: key,
-                    valueFactory: source.Get
-                );
+            TValue GetValue(TKey key) => dict.GetOrAdd(key, source.Get);
 
             return ValueProvider.Create<TKey, TValue>(GetValue);
         }

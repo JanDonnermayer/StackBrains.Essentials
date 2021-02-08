@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{63A2FC2B-6B6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackBrains.Essentials", "src\StackBrains.Essentials\StackBrains.Essentials.csproj", "{B6BE73B5-4EDD-4C94-BD5F-0115F8386219}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BDFDB7A7-32D0-458C-A992-13CAD7433989}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackBrains.Essentials.Test", "test\StackBrains.Essentials.Test\StackBrains.Essentials.Test.csproj", "{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,21 @@ Global
 		{B6BE73B5-4EDD-4C94-BD5F-0115F8386219}.Release|x64.Build.0 = Release|Any CPU
 		{B6BE73B5-4EDD-4C94-BD5F-0115F8386219}.Release|x86.ActiveCfg = Release|Any CPU
 		{B6BE73B5-4EDD-4C94-BD5F-0115F8386219}.Release|x86.Build.0 = Release|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Debug|x64.Build.0 = Debug|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Release|x64.ActiveCfg = Release|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Release|x64.Build.0 = Release|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6BE73B5-4EDD-4C94-BD5F-0115F8386219} = {63A2FC2B-6B6C-43E9-A8AA-72E87FC3041C}
+		{5DA19B2C-77C2-4665-A948-6BAC1B6041DA} = {BDFDB7A7-32D0-458C-A992-13CAD7433989}
 	EndGlobalSection
 EndGlobal

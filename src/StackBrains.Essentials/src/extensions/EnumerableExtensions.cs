@@ -39,6 +39,9 @@ namespace System.Linq
             return state;
         }
 
+        /// <summary>
+        /// Returns elements that are not null
+        /// </summary>
         public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source) =>
             source.Where(e => e != null).Select(e => e!);
     }

@@ -6,7 +6,7 @@ function CreateTestProject {
 
     $srcDir = $srcFile.Directory
     
-    $testDir = "$srcDir.Test" -replace "src". "test"
+    $testDir = "$srcDir.Test" -replace "src", "test"
 
     if (Test-Path $testDir) {
         Write-Host "Skipping existing: $testDir"

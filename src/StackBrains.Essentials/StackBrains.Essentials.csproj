@@ -4,7 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).xml</DocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.3</Version>
+    <Authors>Jan Donnermayer</Authors>
+    <PackageId>StackBrains.Essentials</PackageId>
+    <PackageProjectUrl>https://github.com/JanDonnermayer/StackBrains.Essentials</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JanDonnermayer/StackBrains.Essentials</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Product>StackBrains.Essentials</Product>
+    <Description>
+      Extension methods and types for common tasks
+    </Description>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>Utility</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -22,5 +35,13 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="assets/icon.png">
+      <Pack>True</Pack>
+      <PackagePath>icon.png</PackagePath>
+    </None>
+  </ItemGroup>
+
 
 </Project>

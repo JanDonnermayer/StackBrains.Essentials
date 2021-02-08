@@ -12,12 +12,12 @@ $aliases = @{
     "ng" = "nuget.exe"
 }
 
-$toolPrefixMap = @{
+$prefixes = @{
     "common" = ""
     "dotnet" = "dn-"
 }
 
-$toolPrefixMap.GetEnumerator() | ForEach-Object {
+$prefixes.GetEnumerator() | ForEach-Object {
     $subDir = $_.Key
     $prefix = $_.Value
     Get-ChildItem "$tools/$subDir" | ForEach-Object {

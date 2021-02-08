@@ -33,9 +33,10 @@ namespace System.Linq
 
             foreach (var element in source)
             {
-                state = await reducer(state, element);
+                state = await reducer(state, element)
+                    .ConfigureAwait(false);
             }
-            
+
             return state;
         }
 

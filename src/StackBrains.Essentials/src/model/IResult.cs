@@ -1,14 +1,11 @@
 namespace StackBrains.Essentials
 {
-    public interface IResult
+    public interface IResult<TOk, out TError>
     {
         bool Success { get; }
 
-        string? Message { get; }
-    }
+        TError GetError();
 
-    public interface IResult<out T> : IResult where T : class
-    {
-        public T? Data { get; }
+        TOk GetOk();
     }
 }

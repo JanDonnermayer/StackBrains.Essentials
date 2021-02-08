@@ -5,19 +5,13 @@ namespace StackBrains.Essentials
     public static class Result
     {
         public static Result<TOk, TError> Ok<TOk, TError>(TOk ok)
-            where TOk : class
-            where TError : class
             => new(ok: ok);
 
         public static Result<TOk, TError> Error<TOk, TError>(TError error)
-            where TOk : class
-            where TError : class
             => new(error: error);
     }
 
-    public class Result<TOk, TError>
-        where TOk : class
-        where TError : class
+    public class Result<TOk, TError> : IResult<TOk, TError>
     {
         public bool Success { get; }
 

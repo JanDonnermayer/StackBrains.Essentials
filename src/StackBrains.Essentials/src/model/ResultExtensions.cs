@@ -5,11 +5,11 @@ namespace StackBrains.Essentials
 {
     public static class ResultExtensions
     {
-        public static TOut Map<TIn, TOut>(
-            this IResult<TIn> result,
-            Func<TIn, TOut> okMapper,
-            Func<string, TOut> errorMapper
-        ) where TIn : class
+        public static TOut Map<TOk, TError, TOut>(
+            this IResult<TOk, TError> result,
+            Func<TOk, TOut> okMapper,
+            Func<TError, TOut> errorMapper
+        )
         {
             if (result is null)
                 throw new ArgumentNullException(nameof(result));
@@ -21,15 +21,15 @@ namespace StackBrains.Essentials
                 throw new ArgumentNullException(nameof(errorMapper));
 
             return result.Success
-                ? okMapper(result.Data!)
-                : errorMapper(result.Message!);
+                ? okMapper(result.GetOk())
+                : errorMapper(result.GetError());
         }
 
-        public static async Task<TOut> MapAsync<TIn, TOut>(
-            this Task<IResult<TIn>> resultTask,
-            Func<TIn, TOut> okMapper,
-            Func<string, TOut> errorMapper
-        ) where TIn : class
+        public static async Task<TOut> MapAsync<TOk, TError, TOut>(
+            this Task<IResult<TOk, TError>> resultTask,
+            Func<TOk, TOut> okMapper,
+            Func<TError, TOut> errorMapper
+        )
         {
             if (resultTask is null)
                 throw new ArgumentNullException(nameof(resultTask));

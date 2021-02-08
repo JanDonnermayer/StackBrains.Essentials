@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>0.0.3</Version>
     <Authors>Jan Donnermayer</Authors>
     <PackageId>StackBrains.Essentials</PackageId>
@@ -42,6 +43,5 @@
       <PackagePath>icon.png</PackagePath>
     </None>
   </ItemGroup>
-
 
 </Project>

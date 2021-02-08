@@ -4,7 +4,19 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="3.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />

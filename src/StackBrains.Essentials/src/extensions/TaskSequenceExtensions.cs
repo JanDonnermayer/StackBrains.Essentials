@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace System.Threading.Tasks
+namespace System
 {
     public static class TaskSequenceExtensions
     {

@@ -1,4 +1,6 @@
-namespace System.Threading.Tasks
+using System.Threading.Tasks;
+
+namespace System
 {
     public static class TaskExtensions
     {

@@ -9,7 +9,6 @@ $tools = (Get-Item $PSScriptRoot).Parent.FullName
 $aliases = @{
     "tf" = "terraform.exe"
     "dn" = "dotnet.exe"
-    "ng" = "nuget.exe"
 }
 
 $prefixes = @{

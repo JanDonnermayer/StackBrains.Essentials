@@ -24,12 +24,14 @@ function SyncSolution {
 
     
     foreach ($proj in $projects) {
-        # Remove non existing
+        # Remove non existing projects
         if (!(Test-Path "$proj")) {
             dn sln remove "$proj"
             continue
         }
-        # Add references based on names
+        # Add references based on names:
+        # If a projects starts with the name of another project, 
+        # reference that project
         foreach ($otherProj in $projects) {
             $projName = (Split-Path $proj -Leaf).Split(".")[0];
             $otherProjName = (Split-Path $otherProj -Leaf).Split(".")[0];

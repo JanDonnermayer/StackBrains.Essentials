@@ -11,17 +11,15 @@ $aliases = @{
     "dn" = "dotnet.exe"
 }
 
-$prefixes = @{
-    "common" = ""
-    "dotnet" = "dn-"
-}
+$toolDirs = @(
+    "common" 
+    "dotnet"
+)
 
-$prefixes.GetEnumerator() | ForEach-Object {
-    $subDir = $_.Key
-    $prefix = $_.Value
-    Get-ChildItem "$tools/$subDir" | ForEach-Object {
+$toolDirs | ForEach-Object {
+    Get-ChildItem "$tools/$_" | ForEach-Object {
         $name = $_.Name -replace ".ps1", ""
-        $aliases.Add("$prefix" + "$name", $_.FullName)
+        $aliases.Add("$name", $_.FullName)
     }
 }
 

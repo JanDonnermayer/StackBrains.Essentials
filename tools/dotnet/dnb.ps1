@@ -8,6 +8,8 @@ param (
     [string[]]$arguments
 )
 
+$location = Get-Item(Get-Location)
+
 function SyncSolution {
     param($dir)
 
@@ -27,7 +29,7 @@ function SyncSolution {
             dn sln remove "$proj"
             continue
         }
-        # Add dependencies
+        # Add references based on names
         foreach ($otherProj in $projects) {
             $projName = (Split-Path $proj -Leaf).Split(".")[0];
             $otherProjName = (Split-Path $otherProj -Leaf).Split(".")[0];
@@ -35,7 +37,6 @@ function SyncSolution {
             if ("$otherProjName" -eq "$projName") {
                 continue
             }
-
             if ("$otherProjName".StartsWith("$projName")) {
                 dotnet add "$proj" reference "$otherProj"
             }
@@ -53,18 +54,29 @@ function SyncSolution {
 
 if ($context -eq "sln") {
     if ($command -eq "sync") {
-        SyncSolution(Get-Item (Get-Location))
+        SyncSolution($location)
+        return
     }
 }
 
 if ($context -eq "add") {
     if ($command -eq "ref") {
-        dotnet add reference $arguments
+        dotnet add "$location" reference "$arguments"
+        return
     }
     if ($command -eq "pkg") {
-        dotnet add package $arguments
+        dotnet add "$location" package "$arguments"
+        return
     }
     if ($command -eq "brains") {
-        dotnet add package StackBrains.Essentials
+        dotnet add "$location" package StackBrains.Essentials
+        return
+    }
+}
+
+if ($context -eq "new") {
+    if ($command -eq "clslib") {
+        dotnet add "$location" reference "$arguments"
+        return
     }
 }

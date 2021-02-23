@@ -32,17 +32,18 @@ function SyncSolution {
         # Add references based on names:
         # If a projects starts with the name of another project, 
         # reference that project
-        foreach ($otherProj in $projects) {
-            $projName = (Split-Path $proj -Leaf).Split(".")[0];
-            $otherProjName = (Split-Path $otherProj -Leaf).Split(".")[0];
-
-            if ("$otherProjName" -eq "$projName") {
-                continue
-            }
-            if ("$otherProjName".StartsWith("$projName")) {
-                dotnet add "$proj" reference "$otherProj"
-            }
-        }
+      
+        # foreach ($otherProj in $projects) {
+        #     $projName = (Split-Path $proj -Leaf).Split(".")[0];
+        #     $otherProjName = (Split-Path $otherProj -Leaf).Split(".")[0];
+        #     if ("$projName" -eq "$otherProjName") {
+        #         continue
+        #     }
+        #     if ("$projName".StartsWith("$otherProjName")) {
+        #         dotnet add "$proj" reference "$otherProj"
+        #     }
+        # }
+        
     }
 
     Get-ChildItem -Path $dir -Filter "*.csproj" -Recurse

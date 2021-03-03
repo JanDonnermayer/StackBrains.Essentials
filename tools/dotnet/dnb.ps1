@@ -23,27 +23,12 @@ function SyncSolution {
     | ForEach-Object { Join-Path -Path "$dir" -ChildPath "$_" }
 
     
+    # Remove non existing projects
     foreach ($proj in $projects) {
-        # Remove non existing projects
         if (!(Test-Path "$proj")) {
             dn sln remove "$proj"
             continue
         }
-        # Add references based on names:
-        # If a projects starts with the name of another project, 
-        # reference that project
-      
-        # foreach ($otherProj in $projects) {
-        #     $projName = (Split-Path $proj -Leaf).Split(".")[0];
-        #     $otherProjName = (Split-Path $otherProj -Leaf).Split(".")[0];
-        #     if ("$projName" -eq "$otherProjName") {
-        #         continue
-        #     }
-        #     if ("$projName".StartsWith("$otherProjName")) {
-        #         dotnet add "$proj" reference "$otherProj"
-        #     }
-        # }
-        
     }
 
     Get-ChildItem -Path $dir -Filter "*.csproj" -Recurse
@@ -53,6 +38,28 @@ function SyncSolution {
     dotnet restore
     
     Write-Host "Sucessfully updated solution $solution"
+}
+
+function SyncProjectReferences {
+    param($dir)
+
+    [string[]]$projects = Get-ChildItem -Path $dir -Filter "*.csproj" -Recurse 
+    
+    foreach ($proj in $projects) {
+        foreach ($otherProj in $projects) {
+            $projName = (Split-Path $proj -Leaf).Split(".")[0];
+            $otherProjName = (Split-Path $otherProj -Leaf).Split(".")[0];
+            if ("$projName" -eq "$otherProjName") {
+                continue
+            }
+            if ("$projName".StartsWith("$otherProjName")) {
+                dotnet add "$proj" reference "$otherProj"
+            }
+        }
+    }
+    
+    Write-Host "Sucessfully synced project references"
+    
 }
 
 if ($context -eq "sln") {

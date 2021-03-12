@@ -59,7 +59,7 @@ namespace StackBrains.Essentials
             return ValueProvider.Create<TKey, TValue>(GetValue);
         }
 
-        public static IValueProvider<TKey, Task<TValue>> ToAsync<TKey, TValue>(
+        public static IValueProvider<TKey, Task<TValue>> ToAsyncProvider<TKey, TValue>(
             this IValueProvider<TKey, TValue> source
         )
         {

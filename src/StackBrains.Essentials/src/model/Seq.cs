@@ -15,6 +15,5 @@ namespace StackBrains.Essentials
                 elementSelector: e => e.Item2
             );
         }
-
     }
 }

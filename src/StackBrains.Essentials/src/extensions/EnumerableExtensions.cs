@@ -45,5 +45,17 @@ namespace System.Linq
         /// </summary>
         public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source) =>
             source.Where(e => e != null).Select(e => e!);
+
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(
+            IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector
+        ) {
+            HashSet<TKey> knownKeys = new HashSet<TKey>();
+            foreach (TSource element in source) {
+                if (knownKeys.Add(keySelector(element))) {
+                    yield return element;
+                }
+            }
+        }
     }
 }

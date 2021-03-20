@@ -50,12 +50,14 @@ namespace System.Linq
             this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector
         ) {
-            HashSet<TKey> knownKeys = new HashSet<TKey>();
-            foreach (TSource element in source) {
-                if (knownKeys.Add(keySelector(element))) {
-                    yield return element;
-                }
-            }
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+
+            if (keySelector is null)
+                throw new ArgumentNullException(nameof(keySelector));
+
+            HashSet<TKey> distinctKeys = new();
+            return source.Where(element => distinctKeys.Add(keySelector(element)));
         }
     }
 }

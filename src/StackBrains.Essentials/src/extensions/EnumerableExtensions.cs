@@ -45,5 +45,19 @@ namespace System.Linq
         /// </summary>
         public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source) =>
             source.Where(e => e != null).Select(e => e!);
+
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector
+        ) {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+
+            if (keySelector is null)
+                throw new ArgumentNullException(nameof(keySelector));
+
+            HashSet<TKey> distinctKeys = new();
+            return source.Where(element => distinctKeys.Add(keySelector(element)));
+        }
     }
 }

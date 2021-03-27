@@ -68,7 +68,7 @@ namespace System.Linq
             return AggregateAsync(
                 source: source,
                 seed: false,
-                reducer: async (s, e) => s && await asyncPredicate(e),
+                reducer: (_, e) => asyncPredicate(e),
                 stop: s => s
             );
         }

@@ -48,13 +48,13 @@ namespace StackBrains.Essentials
             return ValueProvider.Create<TKey, Task<TValue?>>(GetValue);
         }
 
-        public static IValueProvider<TKey, TValue> WithMemoryCache<TKey, TValue>(
+        public static IValueProvider<TKey, TValue> Cache<TKey, TValue>(
             this IValueProvider<TKey, TValue> source
         ) where TKey : notnull
         {
-            var dict = new ConcurrentDictionary<TKey, TValue>();
+            var dict = new Dictionary<TKey, TValue>();
 
-            TValue GetValue(TKey key) => dict.GetOrAdd(key, source.Get);
+            TValue GetValue(TKey key) => dict.GetOrAdd(key, () => source.Get(key));
 
             return ValueProvider.Create<TKey, TValue>(GetValue);
         }

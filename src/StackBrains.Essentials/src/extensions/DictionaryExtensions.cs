@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace System.Linq
+namespace System
 {
     public static class DictionaryExtensions
     {
@@ -39,9 +39,9 @@ namespace System.Linq
 
         public static IDictionary<TKey, TValue> Modify<TKey, TValue>(
             this IDictionary<TKey, TValue> dictionary,
-            Action<IDictionary<TKey, TValue>> apply
+            Action<IDictionary<TKey, TValue>> modify
         ) {
-            apply(dictionary);
+            modify(dictionary);
             return dictionary;
         }
     }

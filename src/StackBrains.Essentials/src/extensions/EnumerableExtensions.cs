@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using StackBrains.Essentials;
+using System.Linq;
 
-namespace System.Linq
+namespace System
 {
     public static class EnumerableExtensions
     {
@@ -132,7 +132,9 @@ namespace System.Linq
             if (keySelector is null)
                 throw new ArgumentNullException(nameof(keySelector));
 
-            return source.GroupBy(keySelector).Select(g => g.First());
+            return source
+                .GroupBy(keySelector)
+                .Select(g => g.First());
         }
 
         /// <summary>
@@ -146,13 +148,6 @@ namespace System.Linq
             Func<T, TResult> selector
         ) {
             return source.Select(e => Func.New(() => selector(e)));
-        }
-
-        public static IEnumerable<Func<TResult>> Select<T, TResult>(
-            this IEnumerable<Func<T>> source,
-            Func<T, TResult> selector
-        ) {
-            return source.Select(f => Func.New(() => selector(f())));
         }
     }
 }

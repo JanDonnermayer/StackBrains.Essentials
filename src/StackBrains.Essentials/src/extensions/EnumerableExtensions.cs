@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using StackBrains.Essentials;
 
 namespace System.Linq
 {
@@ -8,8 +9,7 @@ namespace System.Linq
         public static async Task<TState> AggregateAsync<TState, TElement>(
             this IEnumerable<TElement> source,
             TState seed,
-            Func<TState, TElement, Task<TState>> reducer,
-            Func<TState, bool> stop
+            Func<TState, TElement, Task<(TState Next, bool Stop)>> reducer
         )
         {
             if (source is null)
@@ -18,16 +18,15 @@ namespace System.Linq
             if (reducer is null)
                 throw new ArgumentNullException(nameof(reducer));
 
-            if (stop is null)
-                throw new ArgumentNullException(nameof(stop));
-
             var state = seed;
+            bool stop;
 
             foreach (var element in source)
             {
-                state = await reducer(state, element)
+                (state, stop) = await reducer(state, element)
                     .ConfigureAwait(false);
-                if (stop(state))
+
+                if (stop)
                     return state;
             }
 
@@ -43,8 +42,7 @@ namespace System.Linq
             return AggregateAsync(
                 source: source,
                 seed: seed,
-                reducer: reducer,
-                stop: _ => false
+                reducer: async (s, e) => (await reducer(s, e), false)
             );
         }
 
@@ -60,17 +58,15 @@ namespace System.Linq
             );
         }
 
-        public static Task<bool> AnyAsync<T>(
+        public static async Task<bool> AnyAsync<T>(
             this IEnumerable<T> source,
             Func<T, Task<bool>> asyncPredicate
         )
         {
-            return AggregateAsync(
-                source: source,
-                seed: false,
-                reducer: (_, e) => asyncPredicate(e),
-                stop: s => s
-            );
+            foreach (var task in source.Select(asyncPredicate))
+                if (await task) return true;
+
+            return false;
         }
 
         public static async Task<T?> FirstOrDefaultAsync<T>(

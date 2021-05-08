@@ -1,6 +1,6 @@
-namespace System.Linq
+namespace System
 {
-    public static class Function
+    public static class Func
     {
         public static Func<T1, TOut> New<T1, TOut>(Func<T1, TOut> source) => source;
 

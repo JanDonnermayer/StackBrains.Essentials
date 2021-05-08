@@ -49,14 +49,11 @@ namespace System.Linq
         public static Task<TElement> AggregateAsync<TElement>(
             this IEnumerable<TElement> source,
             Func<TElement, TElement, Task<TElement>> reducer
-        )
-        {
-            return AggregateAsync(
+        ) => AggregateAsync(
                 source: source.Skip(1),
                 seed: source.First(),
                 reducer: reducer
             );
-        }
 
         public static async Task<bool> AnyAsync<T>(
             this IEnumerable<T> source,
@@ -143,5 +140,19 @@ namespace System.Linq
         /// </summary>
         public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source) =>
             source.Where(e => e != null).Select(e => e!);
+
+        public static IEnumerable<Func<TResult>> SelectDefer<T, TResult>(
+            this IEnumerable<T> source,
+            Func<T, TResult> selector
+        ) {
+            return source.Select(e => Func.New(() => selector(e)));
+        }
+
+        public static IEnumerable<Func<TResult>> Select<T, TResult>(
+            this IEnumerable<Func<T>> source,
+            Func<T, TResult> selector
+        ) {
+            return source.Select(f => Func.New(() => selector(f())));
+        }
     }
 }

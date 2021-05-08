@@ -2,7 +2,6 @@ using System;
 
 namespace StackBrains.Essentials
 {
-
     internal class FuncValueProvider<TKey, TValue> : IValueProvider<TKey, TValue>
     {
         private readonly Func<TKey, TValue> source;

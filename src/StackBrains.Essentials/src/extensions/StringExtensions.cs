@@ -17,11 +17,5 @@ namespace System
 
         public static string RegexReplace(this string source, string pattern, string replacement) =>
             Regex.Replace(source, pattern, replacement);
-
-        public static string Aggregate(
-            this string seed,
-            Func<string, string, string> aggregator,
-            IEnumerable<string> elements
-        ) => elements.Aggregate(seed, aggregator);
     }
 }

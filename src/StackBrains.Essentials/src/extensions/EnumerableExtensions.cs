@@ -49,11 +49,17 @@ namespace System
         public static Task<TElement> AggregateAsync<TElement>(
             this IEnumerable<TElement> source,
             Func<TElement, TElement, Task<TElement>> reducer
-        ) => AggregateAsync(
-                source: source.Skip(1),
-                seed: source.First(),
-                reducer: reducer
-            );
+        )
+        {
+            if (!source.Any())
+                throw new ArgumentException(nameof(source), "The sequence is empty!");
+
+            return AggregateAsync(
+                 source: source.Skip(1),
+                 seed: source.First(),
+                 reducer: reducer
+             );
+        }
 
         public static async Task<bool> AnyAsync<T>(
             this IEnumerable<T> source,
@@ -142,12 +148,5 @@ namespace System
         /// </summary>
         public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source) =>
             source.Where(e => e != null).Select(e => e!);
-
-        public static IEnumerable<Func<TResult>> SelectDefer<T, TResult>(
-            this IEnumerable<T> source,
-            Func<T, TResult> selector
-        ) {
-            return source.Select(e => Func.New(() => selector(e)));
-        }
     }
 }

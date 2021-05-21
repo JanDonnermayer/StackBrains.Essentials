@@ -14,8 +14,6 @@ namespace System
 
         public static Lazy<T> ToLazy<T>(this Func<T> source) => new(source);
 
-        public static Task<T> ToTask<T>(this Func<T> source) => new(source);
-
         public static Func<TOut> Catch<T, TOut, TException>(
             this Func<T> source,
             Func<T, TOut> onOk,

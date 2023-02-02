@@ -88,5 +88,16 @@ namespace System.Linq
             HashSet<TKey> distinctKeys = new();
             return source.Where(element => distinctKeys.Add(keySelector(element)));
         }
+
+        public static Dictionary<T1,T2> ToDictionary<T1,T2>(
+            this IEnumerable<KeyValuePair<T1, T2>> source
+        )
+            where T1 : notnull
+        {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+
+            return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
     }
 }
